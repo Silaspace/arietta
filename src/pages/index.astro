@@ -1,0 +1,64 @@
+---
+import Hex from '../components/Hex.astro';
+import Tile from '../components/Tile.astro';
+import Layout from '../layouts/Layout.astro';
+import Device from '../components/Device.astro';
+import Editor from '../components/Editor.astro';
+import LogBox from '../components/LogBox.astro';
+---
+
+<Layout>
+	<div class="flex grow mx-auto p-6 lg:p-8">
+		<div class="
+			grow grid gap-4
+			max-md:grid-rows-8 max-md:grid-cols-5
+			md:max-lg:grid-rows-8 md:max-lg:grid-cols-8
+			lg:grid-rows-5 lg:grid-cols-8">
+
+			<!-- Editor -->
+			<div class="
+				relative
+				row-start-1 row-span-5 col-start-1 col-span-3
+				md:max-lg:row-start-1 md:max-lg:row-span-6 md:max-lg:col-start-1 md:max-lg:col-span-3
+				lg:row-start-1 lg:row-span-5 lg:col-start-1 lg:col-span-3">
+				<Tile>
+					<Editor />
+				</Tile>
+			</div>
+
+			<!-- Hex -->
+			<div class="
+				relative
+				row-start-1 row-span-5 col-start-4 col-span-2
+				md:max-lg:row-start-1 md:max-lg:row-span-6 md:max-lg:col-start-4 md:max-lg:col-span-2
+				lg:row-start-1 lg:row-span-5 lg:col-start-4 lg:col-span-2">
+				<Tile>
+					<Hex />
+				</Tile>
+			</div>
+
+			<!-- Device Tab -->
+			<div class="
+				relative
+				row-start-6 row-span-3 col-start-1 col-span-2
+				md:max-lg:row-start-1 md:max-lg:row-span-6 md:max-lg:col-start-6 md:max-lg:col-span-3
+				lg:row-start-1 lg:row-span-2 lg:col-start-6 lg:col-span-3">
+				<Tile>
+					<Device />
+				</Tile>
+			</div>
+
+			<!-- Log -->
+			<div class="
+				relative
+				row-start-6 row-span-3 col-start-3 col-span-3
+				md:max-lg:row-start-7 md:max-lg:row-span-2 md:max-lg:col-start-1 md:max-lg:col-span-8
+				lg:row-start-3 lg:row-span-3 lg:col-start-6 lg:col-span-3">
+				<Tile>
+					<LogBox />
+				</Tile>
+			</div>
+
+		</div>
+	</div>
+</Layout>

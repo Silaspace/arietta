@@ -1,0 +1,26 @@
+---
+import LineNumbers from './editor/LineNumbers.svelte'
+import HexView from './editor/HexView.svelte'
+---
+
+<div class="flex flex-row h-full w-full overflow-auto">
+
+    <div class="flex grow flex-col h-full w-10 pt-4 items-center">
+        <LineNumbers client:only/>
+    </div>
+
+    <div class="
+        absolute left-10
+        my-1 h-full w-px border-t-0
+        bg-transparent bg-gradient-to-b
+        from-transparent via-gray-600 dark:via-gray-400 via-[percentage:10%_90%] to-transparent opacity-25">
+    </div>
+
+    <div class="grid p-4 m-0 h-full w-full">
+        <div class="
+            row-start-1 row-end-2 col-start-1 col-end-2
+            m-0 h-full w-full
+            text-left whitespace-pre-wrap select-none
+            font-mono text-base text-gray-800 dark:text-gray-200"><HexView client:only/></div>
+    </div>
+</div>

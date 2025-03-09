@@ -1,0 +1,39 @@
+---
+import '../styles/global.css';
+import Menu from '../components/Menu.astro';
+---
+
+<script>
+	import { settings } from "../components/state.ts";
+	import { subscribeKeys } from 'nanostores'
+
+	const root = document.getElementById("approot")
+
+	subscribeKeys(settings, ['theme'], (value, oldValue, changed) => {
+		if (root instanceof HTMLElement) root.dataset.theme = value['theme']
+	})
+</script>
+
+<!doctype html>
+<html lang="en" class="w-full h-full m-0">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Arietta</title>
+	</head>
+	<body id="approot" class="w-full h-full m-0" data-theme="">
+
+		<div class="flex h-screen bg-zinc-50 dark:bg-zinc-900">
+			<div class="flex flex-initial w-32">
+				<Menu />
+			</div>
+
+			<div class="flex grow">
+				<slot />
+			</div>
+		</div>
+
+	</body>
+</html>

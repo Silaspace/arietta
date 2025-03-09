@@ -1,0 +1,22 @@
+---
+import Heading from '../text/Heading.astro';
+
+const { href } = Astro.props;
+---
+
+<a class="
+    flex w-full
+    focus:outline-none focus:ring-zinc-500
+    text-zinc-950 dark:text-zinc-100
+    disabled:text-zinc-300 dark:disabled:text-zinc-700
+    hover:bg-zinc-200 dark:hover:bg-zinc-700
+    disabled:hover:bg-transparent dark:disabled:hover:bg-transparent
+    active:bg-zinc-300 dark:active:bg-zinc-600"
+    href={href}>
+
+    <div class="px-4">
+        <Heading>
+            <slot />
+        </Heading>
+    </div>
+</a>

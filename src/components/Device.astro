@@ -1,0 +1,50 @@
+---
+import Caption from './text/Caption.astro'
+import Heading from './text/Heading.astro'
+import LeftDivider from './dividers/LeftDivider.astro'
+import PairButton from './buttons/PairButton.svelte'
+import UploadButton from './buttons/UploadButton.svelte'
+import ConnectedIndicator from './indicators/ConnectedIndicator.svelte'
+import DFUWarningBlock from './blocks/DFUWarningBlock.svelte'
+---
+
+<div class="flex grow items-start flex-col p-4">
+    <Heading>Device</Heading>
+    <div class="flex flex-col grow w-4/5 max-w-64 py-4">
+        <div class="flex flex-row justify-between">
+            <Caption>Connected</Caption>
+            <ConnectedIndicator client:only/>
+        </div>
+
+        <LeftDivider />
+
+        <div class="flex flex-row justify-between">
+            <Caption>Name</Caption>
+        </div>
+
+        <LeftDivider />
+
+        <div class="flex flex-row grow justify-between">
+            <Caption>Flash Size</Caption>
+        </div>
+    </div>
+</div>
+
+<div class="absolute p-4 right-0 top-0">
+    <div class="flex flex-col">
+        <PairButton client:only/>
+        <UploadButton client:only/>
+    </div>
+</div>
+
+<DFUWarningBlock client:only>
+    <div class="absolute p-4 left-0 top-0 h-full w-full">
+        <div class="flex flex-col justify-center items-center w-full h-full bg-white dark:bg-zinc-900 opacity-80">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-12">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+            </svg>
+        
+            <Caption>WebUSB Not Available</Caption>
+        </div>
+    </div>
+</DFUWarningBlock>

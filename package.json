@@ -1,0 +1,24 @@
+{
+  "name": "arietta",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^7.0.5",
+    "@nanostores/persistent": "^0.10.2",
+    "@tailwindcss/vite": "^4.0.9",
+    "astro": "^5.4.1",
+    "nanostores": "^0.11.4",
+    "svelte": "^5.22.6",
+    "tailwindcss": "^4.0.9",
+    "typescript": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/w3c-web-usb": "^1.0.10"
+  }
+}

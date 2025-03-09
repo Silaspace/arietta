@@ -1,0 +1,30 @@
+---
+import Title from './text/Title.astro';
+import Caption from './text/Caption.astro';
+import FullDivider from './dividers/FullDivider.astro';
+import NavButton from './buttons/NavButton.astro';
+---
+
+<div class="
+    flex grow flex-col bg-white dark:bg-zinc-900
+    border-r-1 border-black/8 dark:border-white/8
+    shadow-md dark:shadow-white/8">
+
+    <div class="flex px-4 pt-4">
+        <Title>Arietta</Title>
+    </div>
+
+    <FullDivider />
+
+    <NavButton href="/">Home</NavButton>
+    <NavButton href="about">About</NavButton>
+    <NavButton href="docs">Docs</NavButton>
+    <NavButton href="settings">Settings</NavButton>
+
+    <div class="flex grow"></div>
+
+    <div class="flex flex-col p-4">
+        <Caption>Created by</Caption>
+        <Caption>Silas Harvey</Caption>
+    </div>
+</div>

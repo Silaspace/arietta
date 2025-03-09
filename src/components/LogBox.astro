@@ -1,0 +1,15 @@
+---
+import ClearLogButton from './buttons/ClearLogButton.svelte'
+import Log from './log/Log.svelte'
+---
+
+<div class="flex flex-col-reverse w-7/8 overflow-auto bg-transparent">
+    <div class="w-full">
+        <Log client:only/>
+        <div class="w-full pl-4 pt-4 bg-transparent"></div>
+    </div>
+</div>
+
+<div class="absolute p-4 right-0 top-0">
+    <ClearLogButton client:only/>
+</div>
