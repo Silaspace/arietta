@@ -1,6 +1,6 @@
 ---
 import LeftDivider from '../components/dividers/LeftDivider.astro';
-import Caption from '../components/text/Caption.astro';
+import Heading from '../components/text/Heading.astro';
 import Title from '../components/text/Title.astro';
 import Layout from '../layouts/Layout.astro';
 import DarkModeToggle from '../components/buttons/DarkModeToggle.svelte';
@@ -18,8 +18,8 @@ import DarkModeToggle from '../components/buttons/DarkModeToggle.svelte';
 
 		<LeftDivider />
 
-		<div class="flex flex-row justify-between w-40 ">
-			<Caption>Dark Theme</Caption>
+		<div class="flex flex-row justify-between items-center w-40 pt-4">
+			<Heading>Dark Theme</Heading>
 			<DarkModeToggle client:only/>
 		</div>
 	</div>
