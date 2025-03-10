@@ -12,5 +12,6 @@ export default defineConfig({
   },
   site: 'https://www.cs.ox.ac.uk/people/alex.rogers/arietta',
   base: '/people/alex.rogers/arietta',
+  trailingSlash: 'always',
   integrations: [svelte()]
 });

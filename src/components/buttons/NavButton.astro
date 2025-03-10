@@ -2,6 +2,7 @@
 import Heading from '../text/Heading.astro';
 
 const { href } = Astro.props;
+const baseURL = import.meta.env.BASE_URL
 ---
 
 <a class="
@@ -12,7 +13,7 @@ const { href } = Astro.props;
     hover:bg-zinc-200 dark:hover:bg-zinc-700
     disabled:hover:bg-transparent dark:disabled:hover:bg-transparent
     active:bg-zinc-300 dark:active:bg-zinc-600"
-    href={href}>
+    href={baseURL + href}>
 
     <div class="px-4">
         <Heading>
