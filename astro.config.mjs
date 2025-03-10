@@ -10,6 +10,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-
+  site: 'https://www.cs.ox.ac.uk/people/alex.rogers/arietta',
+  base: '/people/alex.rogers/arietta',
   integrations: [svelte()]
 });
