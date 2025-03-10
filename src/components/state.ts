@@ -1,5 +1,5 @@
 import { atom } from 'nanostores';
-import { persistentMap } from '@nanostores/persistent'
+import { persistentAtom, persistentMap } from '@nanostores/persistent'
 import { Logger } from '../modules/log'
 import { AVRDFU } from '../modules/avrdfu'
 import { Assembler } from '../modules/assembler'
@@ -29,7 +29,7 @@ export const settings = persistentMap<Settings>('settings:', {
 })
 
 export const deviceConnected = atom(false);
-export const rawCode = atom("");
+export const rawCode = persistentAtom('rawCode', "", { listen: false })
 
 
 
