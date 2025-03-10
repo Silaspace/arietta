@@ -2,7 +2,7 @@ export class Highlighter {
 
     static language = [
         {
-            regex: /([^:,()<>+-.,'"|~!*]*:)/g,
+            regex: /([^\n:,()<>+-.,'"|~!*]*:)/g,
             output: '<span class="font-mono text-base text-rose-700 dark:text-rose-500">$1</span>',
         },
         {
