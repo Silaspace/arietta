@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Menu from '../components/Menu.astro';
+const { title } = Astro.props;
 ---
 
 <script>
@@ -21,7 +22,7 @@ import Menu from '../components/Menu.astro';
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Arietta</title>
+		<title>{title}</title>
 	</head>
 	<body id="approot" class="w-full h-full m-0" data-theme="">
 
