@@ -1,4 +1,4 @@
-# Arietta ![Static Badge](https://img.shields.io/badge/version%20-%200.3.3%20-%20green) ![Static Badge](https://img.shields.io/badge/license%20-%20GPLv3%20-%20green)
+# Arietta ![Static Badge](https://img.shields.io/badge/version%20-%200.4.0%20-%20green) ![Static Badge](https://img.shields.io/badge/license%20-%20GPLv3%20-%20green)
 
 */arietta/ - a short aria*
 
