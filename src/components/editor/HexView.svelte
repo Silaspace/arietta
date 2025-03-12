@@ -8,7 +8,7 @@
     let hexFmt = $state("")
 
     const updateHex = async (value: string, _?: string) => {
-        let data = await asm.assemble(value)
+        let data = await asm.assemble(value, false)
 
         if (data instanceof Uint8Array) {
             hexFmt = highlighter.hex(data)

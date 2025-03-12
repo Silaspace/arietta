@@ -30,19 +30,18 @@ export class Assembler {
         this.loaded = Promise.resolve()
     }
 
-    public async assemble(source: string): Promise<Uint8Array | Error> {
+    public async assemble(source: string, verbose: boolean): Promise<Uint8Array | Error> {
         await this.loaded
         const uint8Array = new TextEncoder().encode(source)
         window.write(uint8Array)
 
         let data = window.assemble()
 
-        if (data instanceof Uint8Array) {
-            return data
-        } else {
+        if (verbose && data instanceof Error) {
             this.log.error(data.message)
-            return data
         }
+
+        return data
     }
 
     public async isLoaded(): Promise<void> {

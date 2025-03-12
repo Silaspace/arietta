@@ -4,7 +4,7 @@
 
     async function upload(): Promise<void> {
         let raw = rawCode.get()
-        let data = await asm.assemble(raw)
+        let data = await asm.assemble(raw, true)
 
         if (data instanceof Uint8Array) {
             await dfu.erase()
