@@ -28,8 +28,9 @@ export const settings = persistentMap<Settings>('settings:', {
     theme: 'light'
 })
 
+let inital: string = ''
+export const rawCode = persistentAtom('rawCode', inital, { listen: false })
 export const deviceConnected = atom(false);
-export const rawCode = persistentAtom('rawCode', "", { listen: false })
 
 
 
