@@ -1,16 +1,21 @@
 <script lang="ts">
     import { rawCode } from '../state.ts'
 
-    const update = (e: Event) => {
-        if (e.target instanceof HTMLTextAreaElement) {
-            rawCode.set(e.target.value)
-        }
-    }
+    let firstLoad: boolean = true
+    let value: string = $state('')
 
+    $effect(() => rawCode.set(value))
+
+    rawCode.subscribe((update, _) => {
+        if (firstLoad) {
+            value = update
+            firstLoad = false
+        }
+    })
 </script>
 
 <textarea
-    oninput={update}
+    bind:value
     autocomplete="off"
     autocapitalize="off"
     spellcheck="false"
