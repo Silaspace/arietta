@@ -34,7 +34,15 @@ export class Assembler {
         await this.loaded
         const uint8Array = new TextEncoder().encode(source)
         window.write(uint8Array)
-        return window.assemble()
+
+        let data = window.assemble()
+
+        if (data instanceof Uint8Array) {
+            return data
+        } else {
+            this.log.error(data.message)
+            return data
+        }
     }
 
     public async isLoaded(): Promise<void> {
