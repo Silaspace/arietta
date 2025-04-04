@@ -1,20 +1,789 @@
 ---
 import LeftDivider from '../components/dividers/LeftDivider.astro';
+import Instr from '../components/text/Instr.astro';
+import Mono from '../components/text/Mono.astro';
 import Text from '../components/text/Text.astro';
 import Title from '../components/text/Title.astro';
+import Heading from '../components/text/Heading.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Arietta Docs">
-	<div class="flex grow flex-col p-12">
-		<Title>Docs</Title>
+	<div class="flex grow flex-col p-12 overflow-auto">
+		<Title>Documentation</Title>
 
-		<LeftDivider />
+		<div class="flex">
+			<LeftDivider />
+		</div>
 
 		<div class="flex pt-4">
 			<Text>
-				Coming Soon!
+				This documentation aims to be a definitive reference guide to the AVR assembly language
+				recognised and supported by the Aria assembler.
 			</Text>
+		</div>
+
+		<div class="flex pt-4">
+			<Heading>Registers and Operands</Heading>
+		</div>
+
+		<div class="flex flex-col pl-8 pt-2">
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Text>Name</Text>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Description</Text>
+				</div>
+			</div>
+
+			<LeftDivider />
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>Rd</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Destination (and source) Register</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>Rr</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Source register</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>K</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Constant data</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>k</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Constant address</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>b</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Register file bit position (0..7)</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>s</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>Status register bit position (0..7)</Text>
+				</div>
+			</div>
+
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Mono>A</Mono>
+				</div>
+		
+				<div class="flex flex-grow">
+					<Text>I/O memory address</Text>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex pt-4">
+			<Heading>Instructions</Heading>
+		</div>
+
+		<div class="flex flex-col pl-8 pt-2">
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Text>Syntax</Text>
+				</div>
+			
+				<div class="flex w-64">
+					<Text>Encoding</Text>
+				</div>
+			
+				<div class="flex flex-grow">
+					<Text>Description</Text>
+				</div>
+			</div>
+
+			<LeftDivider />
+
+			<Instr
+				name = "ADC"
+				syntax = "Rd, Rr"
+				encoding = "0001 11rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ADD"
+				syntax = "Rd, Rr"
+				encoding = "0000 11rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "AND"
+				syntax = "Rd, Rr"
+				encoding = "0010 00rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ANDI"
+				syntax = "Rd, K"
+				encoding = "0111 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ASR"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0101"
+				description = ""
+			/>
+
+			<Instr
+				name = "BCLR"
+				syntax = "s"
+				encoding = "1001 0100 1sss 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BLD"
+				syntax = "Rd, b"
+				encoding = "1111 100d dddd 0bbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRBC"
+				syntax = "s, k"
+				encoding = "1111 01kk kkkk ksss"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRBS"
+				syntax = "s, k"
+				encoding = "1111 00kk kkkk ksss"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRCC"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRCS"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BREQ"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k001"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRGE"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k100"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRHC"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k101"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRHS"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k101"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRID"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k111"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRIE"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k111"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRLO"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRLT"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k100"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRMI"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k010"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRNE"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k001"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRPL"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k010"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRSH"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRTC"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k110"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRTS"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k110"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRVC"
+				syntax = "k"
+				encoding = "1111 01kk kkkk k011"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BRVS"
+				syntax = "k"
+				encoding = "1111 00kk kkkk k011"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BSET"
+				syntax = "s"
+				encoding = "1001 0100 0sss 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "BST"
+				syntax = "Rd, b"
+				encoding = "1111 101d dddd 0bbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CBI"
+				syntax = "A, b"
+				encoding = "1001 1000 AAAA Abbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CBR"
+				syntax = "Rd, k"
+				encoding = "0111 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLC"
+				syntax = ""
+				encoding = "1001 0100 1000 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLH"
+				syntax = ""
+				encoding = "1001 0100 1101 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLI"
+				syntax = ""
+				encoding = "1001 0100 1111 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLN"
+				syntax = ""
+				encoding = "1001 0100 1010 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLR"
+				syntax = "Rd"
+				encoding = "0010 01dd dddd dddd"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLS"
+				syntax = ""
+				encoding = "1001 0100 1100 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLT"
+				syntax = ""
+				encoding = "1001 0100 1110 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLV"
+				syntax = ""
+				encoding = "1001 0100 1011 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CLZ"
+				syntax = ""
+				encoding = "1001 0100 1001 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "COM"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CP"
+				syntax = "Rd, Rr"
+				encoding = "0001 01rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CPC"
+				syntax = "Rd, Rr"
+				encoding = "0000 01rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CPI"
+				syntax = "Rd, K"
+				encoding = "0011 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "CPSE"
+				syntax = "Rd, Rr"
+				encoding = "0001 00rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "DEC"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 1010"
+				description = ""
+			/>
+				
+			<Instr
+				name = "EOR"
+				syntax = "Rd, Rr"
+				encoding = "0010 01rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ICALL"
+				syntax = ""
+				encoding = "1001 0101 0000 1001"
+				description = ""
+			/>
+				
+			<Instr
+				name = "IJMP"
+				syntax = ""
+				encoding = "1001 0100 0000 1001"
+				description = ""
+			/>
+				
+			<Instr
+				name = "IN"
+				syntax = "Rd, A"
+				encoding = "1011 0AAd dddd AAAA"
+				description = ""
+			/>
+				
+			<Instr
+				name = "INC"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0011"
+				description = ""
+			/>
+
+			<Instr
+				name = "LDI"
+				syntax = "Rd, K"
+				encoding = "1110 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "LDS"
+				syntax = "Rd, k"
+				encoding = "1001 000d dddd 0000"
+				encoding2 = "kkkk kkkk kkkk kkkk"
+				description = ""
+			/>
+				
+			<Instr
+				name = "LSL"
+				syntax = "Rd"
+				encoding = "0000 11dd dddd dddd"
+				description = ""
+			/>
+				
+			<Instr
+				name = "LSR"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0110"
+				description = ""
+			/>
+				
+			<Instr
+				name = "MOV"
+				syntax = "Rd, Rr"
+				encoding = "0010 11rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "NEG"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0001"
+				description = ""
+			/>
+				
+			<Instr
+				name = "NOP"
+				syntax = ""
+				encoding = "0000 0000 0000 0000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "OR"
+				syntax = "Rd, Rr"
+				encoding = "0010 10rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ORI"
+				syntax = "Rd, K"
+				encoding = "0110 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "OUT"
+				syntax = "A, Rd"
+				encoding = "1011 1AAr rrrr AAAA"
+				description = ""
+			/>
+				
+			<Instr
+				name = "POP"
+				syntax = "Rd"
+				encoding = "1001 000d dddd 1111"
+				description = ""
+			/>
+				
+			<Instr
+				name = "PUSH"
+				syntax = "Rr"
+				encoding = "1001 001d dddd 1111"
+				description = ""
+			/>
+			
+			<Instr
+				name = "RCALL"
+				syntax = "k"
+				encoding = "1101 kkkk kkkk kkkk"
+				description = ""
+			/>
+				
+			<Instr
+				name = "RET"
+				syntax = ""
+				encoding = "1001 0101 0000 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "RETI"
+				syntax = ""
+				encoding = "1001 0101 0001 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "RJMP"
+				syntax = "k"
+				encoding = "1100 kkkk kkkk kkkk"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ROL"
+				syntax = "Rd"
+				encoding = "0001 11dd dddd dddd"
+				description = ""
+			/>
+				
+			<Instr
+				name = "ROR"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0111"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBC"
+				syntax = "Rd, Rr"
+				encoding = "0000 10rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBCI"
+				syntax = "Rd, k"
+				encoding = "0100 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBI"
+				syntax = "A, b"
+				encoding = "1001 1010 AAAA Abbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBIC"
+				syntax = "A, b"
+				encoding = "1001 1001 AAAA Abbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBIS"
+				syntax = "A, b"
+				encoding = "1001 1011 AAAA Abbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBR"
+				syntax = "Rd, K"
+				encoding = "0110 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBRC"
+				syntax = "Rr, b"
+				encoding = "1111 110r rrrr 0bbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SBRS"
+				syntax = "Rd, b"
+				encoding = "1111 111r rrrr 0bbb"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEC"
+				syntax = ""
+				encoding = "1001 0100 0000 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEH"
+				syntax = ""
+				encoding = "1001 0100 0101 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEI"
+				syntax = ""
+				encoding = "1001 0100 0111 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEN"
+				syntax = ""
+				encoding = "1001 0100 0010 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SER"
+				syntax = "Rd"
+				encoding = "1110 1111 dddd 1111"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SES"
+				syntax = ""
+				encoding = "1001 0100 0100 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SET"
+				syntax = ""
+				encoding = "1001 0100 0110 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEV"
+				syntax = ""
+				encoding = "1001 0100 0011 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SEZ"
+				syntax = ""
+				encoding = "1001 0100 0001 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SLEEP"
+				syntax = ""
+				encoding = "1001 0101 1000 1000"
+				description = ""
+			/>
+				
+			<Instr
+				name = "STS"
+				syntax = "k, Rd"
+				encoding = "1001 001d dddd 0000"
+				encoding2 = "kkkk kkkk kkkk kkkk"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SUB"
+				syntax = "Rd, Rr"
+				encoding = "0001 10rd dddd rrrr"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SUBI"
+				syntax = "Rd, k"
+				encoding = "0101 KKKK dddd KKKK"
+				description = ""
+			/>
+				
+			<Instr
+				name = "SWAP"
+				syntax = "Rd"
+				encoding = "1001 010d dddd 0010"
+				description = ""
+			/>
+				
+			<Instr
+				name = "TST"
+				syntax = "Rd"
+				encoding = "0010 00dd dddd dddd"
+				description = ""
+			/>
+				
+			<Instr
+				name = "WDR"
+				syntax = ""
+				encoding = "1001 0101 1010 1000"
+				description = ""
+			/>
 		</div>
 	</div>
 </Layout>
