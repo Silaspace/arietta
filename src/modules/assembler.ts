@@ -41,6 +41,10 @@ export class Assembler {
             this.log.error(data.message)
         }
 
+        if (data instanceof Uint8Array) {
+            this.log.info("Assembly successful")
+        }
+
         return data
     }
 

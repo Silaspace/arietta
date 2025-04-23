@@ -1,17 +1,18 @@
 <script lang="ts">
     import Button from "../templates/Button.svelte";
-    import { asm, dfu, disconnect, rawCode } from '../state.ts'
+    import { asm, dfu, disconnect, rawCode, hexCode } from '../state.ts'
 
     async function upload(): Promise<void> {
         let raw = rawCode.get()
         let data = await asm.assemble(raw, true)
 
         if (data instanceof Uint8Array) {
+            let cast = new Uint8Array(data) // casts from Uint8Array<ArrayBufferLike> to Uint8Array<ArrayBuffer>
+            hexCode.set(cast)
+
             await dfu.erase()
-            await dfu.download(data)
+            await dfu.download(cast)
             await disconnect()
-        } else {
-            console.log(data)
         }
     }
 </script>
