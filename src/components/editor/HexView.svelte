@@ -1,21 +1,9 @@
 <script lang="ts">
-    import { rawCode } from '../state.ts'
-    import { Highlighter } from '../../modules/highlighter';
-    import { asm, dfu } from '../state.ts';
-
-    const highlighter: Highlighter = new Highlighter()
+    import { hexCode } from '../state.ts'
+    import { View } from '../../modules/view.ts';
 
     let hexFmt = $state("")
-
-    const updateHex = async (value: string, _?: string) => {
-        let data = await asm.assemble(value, false)
-
-        if (data instanceof Uint8Array) {
-            hexFmt = highlighter.hex(data)
-        }
-    }
-
-    rawCode.subscribe(updateHex)
+    hexCode.subscribe((value, _) => hexFmt = View.hex(value))
 </script>
 
 {@html hexFmt}

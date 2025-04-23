@@ -1,4 +1,4 @@
-export class Highlighter {
+export class View {
 
     static language = [
         {
@@ -31,7 +31,7 @@ export class Highlighter {
         },
     ]
 
-    public hex(hex: Uint8Array): string {
+    public static hex(hex: Uint8Array): string {
         let html: string = ''
 
         for (let i = 0; i < hex.length; i += 1) {
@@ -42,12 +42,12 @@ export class Highlighter {
         return html
     }
     
-    public highlight(src: string): string {
-        Highlighter.language.forEach(key => src = src.replace(key.regex, key.output));
+    public static asm(src: string): string {
+        View.language.forEach(key => src = src.replace(key.regex, key.output));
         return src
     }
 
-    public countLines(src: string): number {
+    public static lines(src: string): number {
         return src.split(/\r\n|\r|\n/).length
     }
 }

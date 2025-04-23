@@ -1,10 +1,9 @@
 <script lang="ts">
     import { rawCode } from '../state.ts'
-    import { Highlighter } from '../../modules/highlighter';
+    import { View } from '../../modules/view.ts';
 
-    const highlighter: Highlighter = new Highlighter()
     let lines = $state(1)
-	rawCode.subscribe((value, _) => lines = highlighter.countLines(value))
+	rawCode.subscribe((value, _) => lines = View.lines(value))
 </script>
 
 {#each { length: Math.max(lines, 10) }, i}

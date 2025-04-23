@@ -2,6 +2,7 @@
 import LineNumbers from './editor/LineNumbers.svelte'
 import Textbox from './editor/Textbox.svelte'
 import CodeView from './editor/CodeView.svelte'
+import HexButton from './buttons/HexButton.svelte'
 ---
 
 <div class="flex flex-row h-full w-full overflow-auto">
@@ -28,5 +29,11 @@ import CodeView from './editor/CodeView.svelte'
             m-0 h-full w-full z-1">
             <Textbox client:only/>
         </div>
+    </div>
+</div>
+
+<div class="absolute p-4 right-0 top-0 z-10">
+    <div class="flex flex-col">
+        <HexButton client:only/>
     </div>
 </div>

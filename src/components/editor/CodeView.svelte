@@ -1,10 +1,9 @@
 <script lang="ts">
     import { rawCode } from '../state.ts'
-    import { Highlighter } from '../../modules/highlighter';
+    import { View } from '../../modules/view.ts';
 
-    const highlighter: Highlighter = new Highlighter()
     let highlighted = $state("")
-    rawCode.subscribe((value, _) => highlighted = highlighter.highlight(value))
+    rawCode.subscribe((value, _) => highlighted = View.asm(value))
 </script>
 
 {@html highlighted}

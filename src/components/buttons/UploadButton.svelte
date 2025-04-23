@@ -14,8 +14,6 @@
             console.log(data)
         }
     }
-
-
 </script>
 
 <Button clickable={upload} disabled={false}>
