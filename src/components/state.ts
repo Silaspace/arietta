@@ -1,18 +1,8 @@
-import { atom } from 'nanostores';
+import { atom, map } from 'nanostores';
 import { persistentAtom, persistentMap } from '@nanostores/persistent'
 import { Logger } from '../modules/log'
 import { AVRDFU } from '../modules/avrdfu'
 import { Assembler } from '../modules/assembler'
-
-
-/* ------------------------ */
-/*      Global Classes      */
-/* ------------------------ */
-const dfuLog = new Logger("WebDFU")
-export const dfu = new AVRDFU(dfuLog)
-
-const asmLog = new Logger("Assembler")
-export const asm = new Assembler(asmLog)
 
 
 
@@ -20,18 +10,30 @@ export const asm = new Assembler(asmLog)
 /*       Global State       */
 /* ------------------------ */
 
-type Settings = {
+export type Settings = {
     theme: 'dark' | 'light'
 }
 
-export const settings = persistentMap<Settings>('settings:', {
+export type DeviceStatus = {
+    connected: boolean
+    bStatus: AVRDFU.bStatus
+    bState: AVRDFU.bState
+
+}
+
+export const settings = persistentMap<Settings>('settings', {
     theme: 'light'
 })
+
+export const deviceStatus = map<DeviceStatus>({
+    connected: false,
+    bStatus: AVRDFU.bStatus.OK,
+    bState: AVRDFU.bState.appDETACH,
+});
 
 let initial: string = ''
 export const rawCode = persistentAtom('rawCode', initial, { listen: false })
 export const hexCode = atom(new Uint8Array);
-export const deviceConnected = atom(false);
 
 
 
@@ -42,20 +44,36 @@ export const webUSB = navigator.usb ? true : false
 
 export const pair = async () => {
     let connected = await dfu.pair()
-    deviceConnected.set(connected)
+    deviceStatus.setKey("connected", connected)
 }
 
 export const connect = async () => {
     let connected = await dfu.connect()
-    deviceConnected.set(connected)
+    deviceStatus.setKey("connected", connected)
 }
 
 export const disconnect = async () => {
     await dfu.restart()
-    deviceConnected.set(false)
+    deviceStatus.setKey("connected", false)
+}
+
+export const statusCallback = (status: AVRDFU.Status) => {
+    deviceStatus.setKey("bStatus", status.bStatus)
+    deviceStatus.setKey("bState", status.bState)
 }
 
 if (webUSB) {
     navigator.usb.onconnect = connect
-    navigator.usb.ondisconnect = () => { deviceConnected.set(false) }
+    navigator.usb.ondisconnect = () => { deviceStatus.setKey("connected", false) }
 }
+
+
+
+/* ------------------------ */
+/*      Global Classes      */
+/* ------------------------ */
+const dfuLog = new Logger("WebDFU")
+export const dfu = new AVRDFU(dfuLog, statusCallback)
+
+const asmLog = new Logger("Assembler")
+export const asm = new Assembler(asmLog)

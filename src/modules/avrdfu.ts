@@ -5,7 +5,7 @@ export class AVRDFU {
     private interfaceNumber: number = 0
     private configurationNumber: number = 1
 
-    constructor(private log: Log.Interface) {}
+    constructor(private log: Log.Interface, private statusCallback: (status:AVRDFU.Status) => void) {}
 
     private async open(): Promise<boolean> {
         try {
@@ -66,12 +66,12 @@ export class AVRDFU {
     }
 
     public async abort(): Promise<void> {
-        this.log.info("Sending DFU_ABORT command...")
+        this.log.info("Aborting...")
         await this.send(AVRDFU.bRequest.DFU_ABORT, AVRDFU.commands.empty, 0)
     }
 
     public async clearStatus(): Promise<void> {
-        this.log.info("Sending DFU_CLRSTATUS command...")
+        this.log.info("Clear device status")
         await this.send(AVRDFU.bRequest.DFU_CLRSTATUS, AVRDFU.commands.empty, 0)
     }
 
@@ -100,7 +100,7 @@ export class AVRDFU {
         }
     }
 
-    public async download(firmware: Uint8Array, blockSize: number = 32): Promise<void> {
+    public async download(firmware: Uint8Array): Promise<void> {
         this.log.info("Start firmware upload")
 
         const start_address = 0x00
@@ -141,27 +141,33 @@ export class AVRDFU {
     }
 
     public async getState(): Promise<AVRDFU.bState | void> {
-        this.log.info("Sending DFU_GETSTATE command...")
+        this.log.info("Getting device state...")
         const response = await this.receive(AVRDFU.bRequest.DFU_GETSTATE, 1)
 
         if (response && response.data) {
-            return response.data.getUint8(0)
+            let bState = response.data.getUint8(0)
+
+            this.log.info("Device state: " + AVRDFU.bStateDescription(bState))
         } else {
             this.log.error("No response received")
         }
     }
 
-    public async getStatus(): Promise<AVRDFU.Status | void> {
-        this.log.info("Sending DFU_GETSTATUS command...")
+    public async getStatus(): Promise<void> {
+        this.log.info("Getting device status...")
         const response = await this.receive(AVRDFU.bRequest.DFU_GETSTATUS, 6)
 
         if (response && response.data) {
-            return {
-                bStatus:       response.data.getUint8(0),
+            let bStatus = response.data.getUint8(0)
+
+            this.statusCallback({
+                bStatus:       bStatus,
                 bwPollTimeOut: response.data.getUint32(1, true) & 0xFFFFFF,
                 bState:        response.data.getUint8(4),
                 iString:       response.data.getUint8(5),
-            }
+            })
+
+            this.log.info("Device status: " + AVRDFU.bStatusDescription(bStatus))
         } else {
             this.log.error("No response received")
         }
@@ -214,6 +220,27 @@ export namespace AVRDFU {
         errSTALLEDPK    = 0x0F,
     }
 
+    export function bStatusDescription(bstatus: AVRDFU.bStatus): string {
+        switch (bstatus) {
+            case AVRDFU.bStatus.OK              : return "OK"
+            case AVRDFU.bStatus.errTARGET       : return "File is not targeted for use by this device"
+            case AVRDFU.bStatus.errFILE         : return "File is for this device but fails some vendor-specific verification test"
+            case AVRDFU.bStatus.errWRITE        : return "Device id unable to write memory"
+            case AVRDFU.bStatus.errERASE        : return "Memory erase function failed"
+            case AVRDFU.bStatus.errCHECK_ERASED : return "Memory erase check failed"
+            case AVRDFU.bStatus.errPROG         : return "Program memory function failed"
+            case AVRDFU.bStatus.errVERIFY       : return "Programmed memory failed verification"
+            case AVRDFU.bStatus.errADDRESS      : return "Cannot program memory due to received address that is out of range"
+            case AVRDFU.bStatus.errNOTDONE      : return "Received download with length 0, but device does not think it has all the data yet."
+            case AVRDFU.bStatus.errFIRMWARE     : return "Device’s firmware is corrupted. It cannot return to run-time operations"
+            case AVRDFU.bStatus.errVENDOR       : return "iString indicates a vendor-specific error"
+            case AVRDFU.bStatus.errUSBR         : return "Device detected unexpected USB reset signaling"
+            case AVRDFU.bStatus.errPOR          : return "Device detected unexpected power on reset"
+            case AVRDFU.bStatus.errUNKNOWN      : return "Unknown error"
+            case AVRDFU.bStatus.errSTALLEDPK    : return "Device stalled an unexpected request"
+        }
+    }
+
     export enum bState {
         appIDLE                = 0x00,
         appDETACH              = 0x01,
@@ -226,6 +253,22 @@ export namespace AVRDFU {
         dfuMANIFEST_WAITRESET  = 0x08,
         dfuUPLOAD_IDLE         = 0x09,
         dfuERROR               = 0x0A,
+    }
+
+    export function bStateDescription(bstate: AVRDFU.bState): string {
+        switch (bstate) {
+            case AVRDFU.bState.appIDLE                : return "Device is running its normal application"
+            case AVRDFU.bState.appDETACH              : return "Device is running its normal application, has received the a detach request, and is waiting for a USB reset"
+            case AVRDFU.bState.dfuIDLE                : return "Device is operating in the DFU mode and is waiting for requests"
+            case AVRDFU.bState.dfuDNLOAD_SYNC         : return "Device has received a block and is waiting for the Host to solicit the status"
+            case AVRDFU.bState.dfuDNBUSY              : return "Device is programming a control-write block into its non volatile memories"
+            case AVRDFU.bState.dfuDNLOAD_IDLE         : return "Device is processing a download operation. Expecting download requests"
+            case AVRDFU.bState.dfuMANIFEST_SYNC       : return "Device is waiting for the Host to solicit the status"
+            case AVRDFU.bState.dfuMANIFEST            : return "Device is in the Manifestation phase."
+            case AVRDFU.bState.dfuMANIFEST_WAITRESET  : return "Device has programmed its memories and is waiting for a USB reset or a power on reset."
+            case AVRDFU.bState.dfuUPLOAD_IDLE         : return "The device is processing an upload operation. Expecting upload requests."
+            case AVRDFU.bState.dfuERROR               : return "An error has occurred. Awaiting a clear status request."
+        }
     }
 
     export enum commandIdentifier {

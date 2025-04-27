@@ -5,6 +5,7 @@ import LeftDivider from './dividers/LeftDivider.astro'
 import PairButton from './buttons/PairButton.svelte'
 import UploadButton from './buttons/UploadButton.svelte'
 import ConnectedIndicator from './indicators/ConnectedIndicator.svelte'
+import DeviceStatus from './indicators/DeviceStatus.svelte'
 import DFUWarningBlock from './blocks/DFUWarningBlock.svelte'
 ---
 
@@ -26,8 +27,8 @@ import DFUWarningBlock from './blocks/DFUWarningBlock.svelte'
         <LeftDivider />
 
         <div class="flex flex-row grow justify-between">
-            <Caption>Flash Size</Caption>
-            <Caption>--</Caption>
+            <Caption>Status</Caption>
+            <DeviceStatus client:only/>
         </div>
     </div>
 </div>
