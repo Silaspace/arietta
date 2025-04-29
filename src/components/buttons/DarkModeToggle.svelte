@@ -1,6 +1,6 @@
 <script lang="ts">
     import Toggle from "../templates/Toggle.svelte";
-    import { settings } from '../state.ts'
+    import { settings } from '../../modules/state.ts'
 	import { subscribeKeys } from 'nanostores'
 
     let darkMode = $state(false);

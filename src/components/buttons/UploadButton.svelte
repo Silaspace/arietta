@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from "../templates/Button.svelte";
-    import { asm, dfu, disconnect, rawCode, hexCode } from '../state.ts'
+    import { asm, dfu, disconnect, rawCode, hexCode } from '../../modules/state.ts'
 
     async function upload(): Promise<void> {
         let raw = rawCode.get()

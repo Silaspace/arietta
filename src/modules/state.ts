@@ -1,8 +1,8 @@
 import { atom, map } from 'nanostores';
 import { persistentAtom, persistentMap } from '@nanostores/persistent'
-import { Logger } from '../modules/log'
-import { AVRDFU } from '../modules/avrdfu'
-import { Assembler } from '../modules/assembler'
+import { Logger } from './log'
+import { AVRDFU } from './avrdfu'
+import { Assembler } from './assembler'
 
 
 
@@ -49,7 +49,7 @@ export const pair = async () => {
 
 export const connect = async () => {
     let connected = await dfu.connect()
-    await dfu.read()
+    await dfu.read(AVRDFU.command.read_product_name)
     deviceStatus.setKey("connected", connected)
 }
 

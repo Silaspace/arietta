@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { rawCode } from '../state.ts'
+    import { rawCode } from '../../modules/state.ts'
 
     let firstLoad: boolean = true
     let value: string = $state('')

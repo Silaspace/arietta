@@ -1,6 +1,6 @@
 <script lang="ts">
     import Button from '../templates/Button.svelte';
-    import { pair } from '../state.ts'
+    import { pair } from '../../modules/state.ts'
 </script>
 
 <Button clickable={pair} disabled={false}>

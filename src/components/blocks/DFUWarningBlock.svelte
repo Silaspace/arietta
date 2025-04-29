@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from 'svelte';
-    import { webUSB } from '../state.ts'
+    import { webUSB } from '../../modules/state.ts'
     let { children } : { children: Snippet } = $props();
 </script>
 
