@@ -67,12 +67,12 @@ export class AVRDFU {
 
     public async abort(): Promise<void> {
         this.log.info("Aborting...")
-        await this.send(AVRDFU.bRequest.DFU_ABORT, AVRDFU.commands.empty, 0)
+        await this.send(AVRDFU.bRequest.DFU_ABORT, AVRDFU.command.empty, 0)
     }
 
     public async clearStatus(): Promise<void> {
         this.log.info("Clear device status")
-        await this.send(AVRDFU.bRequest.DFU_CLRSTATUS, AVRDFU.commands.empty, 0)
+        await this.send(AVRDFU.bRequest.DFU_CLRSTATUS, AVRDFU.command.empty, 0)
     }
 
     public async pair(): Promise<boolean> {
@@ -137,7 +137,7 @@ export class AVRDFU {
 
     public async erase(): Promise<void> {
         this.log.info("Sending full chip erase...")
-        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.commands.erase, 0)
+        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.command.erase, 0)
     }
 
     public async getState(): Promise<AVRDFU.bState | void> {
@@ -146,8 +146,8 @@ export class AVRDFU {
 
         if (response && response.data) {
             let bState = response.data.getUint8(0)
-
             this.log.info("Device state: " + AVRDFU.bStateDescription(bState))
+            return bState
         } else {
             this.log.error("No response received")
         }
@@ -173,10 +173,28 @@ export class AVRDFU {
         }
     }
 
+    public async read(command: AVRDFU.readCommands): Promise<void> {
+        this.log.info("Reading " + AVRDFU.readCommandDescription(command) + " from device...")
+
+        // set up request
+        await this.send(AVRDFU.bRequest.DFU_DNLOAD, command, 0)
+        await this.getStatus()
+
+        // read data from request
+        const response = await this.receive(AVRDFU.bRequest.DFU_UPLOAD, 1)
+
+        if (response && response.data) {
+            let name = response.data.getUint8(0)
+            this.log.info("Response:" + name)
+        } else {
+            this.log.error("No response received")
+        }
+    }
+
     public async restart(): Promise<void> {
         this.log.info("Restarting device...")
-        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.commands.restart, 0)
-        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.commands.empty, 0)
+        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.command.restart, 0)
+        await this.send(AVRDFU.bRequest.DFU_DNLOAD, AVRDFU.command.empty, 0)
         this.device = null
     }
 }
@@ -279,9 +297,39 @@ export namespace AVRDFU {
         Id_change_base_address = 0x06,
     }
 
-    export const commands = {
-        empty:   new Uint8Array([]),
-        erase:   new Uint8Array([AVRDFU.commandIdentifier.Id_write_command, 0x00, 0xFF, 0x00, 0x00, 0x00]),
-        restart: new Uint8Array([AVRDFU.commandIdentifier.Id_write_command, 0x03, 0x01, 0x00, 0x00, 0x00]),
+    export const command = {
+        empty:                      new Uint8Array([]),
+        erase:                      new Uint8Array([AVRDFU.commandIdentifier.Id_write_command, 0x00, 0xFF, 0x00, 0x00, 0x00]),
+        restart:                    new Uint8Array([AVRDFU.commandIdentifier.Id_write_command, 0x03, 0x01, 0x00, 0x00, 0x00]),
+        read_bootloader_version:    new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x00, 0x00]),
+        read_boot_id_1:             new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x00, 0x01]),
+        read_boot_id_2:             new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x00, 0x02]),
+        read_manufacturer_code:     new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x01, 0x30]),
+        read_family_code:           new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x01, 0x31]),
+        read_product_name:          new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x01, 0x60]),
+        read_product_revision:      new Uint8Array([AVRDFU.commandIdentifier.Id_read_command, 0x01, 0x61]),
     }
+
+    export type readCommands =
+        typeof AVRDFU.command.read_bootloader_version
+      | typeof AVRDFU.command.read_boot_id_1
+      | typeof AVRDFU.command.read_boot_id_2
+      | typeof AVRDFU.command.read_manufacturer_code
+      | typeof AVRDFU.command.read_family_code
+      | typeof AVRDFU.command.read_product_name
+      | typeof AVRDFU.command.read_product_revision;
+
+    export function readCommandDescription(command: AVRDFU.readCommands): string {
+        switch (command) {
+            case AVRDFU.command.read_bootloader_version:    return "bootloader version"
+            case AVRDFU.command.read_boot_id_1:             return "boot ID 1"
+            case AVRDFU.command.read_boot_id_2:             return "boot ID 2"
+            case AVRDFU.command.read_manufacturer_code:     return "manufacturer code"
+            case AVRDFU.command.read_family_code:           return "family code"
+            case AVRDFU.command.read_product_name:          return "product name"
+            case AVRDFU.command.read_product_revision:      return "product revision"
+            default:                                        return "unknown field"
+        }
+    }
+
 }
