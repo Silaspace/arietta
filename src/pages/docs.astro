@@ -1,6 +1,7 @@
 ---
 import LeftDivider from '../components/dividers/LeftDivider.astro';
 import Instr from '../components/text/Instr.astro';
+import Dir from '../components/text/Dir.astro';
 import Mono from '../components/text/Mono.astro';
 import Text from '../components/text/Text.astro';
 import Title from '../components/text/Title.astro';
@@ -18,9 +19,43 @@ import Layout from '../layouts/Layout.astro';
 
 		<div class="flex pt-4">
 			<Text>
-				This documentation aims to be a definitive reference guide to the AVR assembly language
-				recognised and supported by the Aria assembler.
+				This documentation aims to be a comprehensive reference guide to the AVR assembly language
+				recognised and supported by the Aria assembler. It details the instructions supported by ARIA,
+				as well as the assembler directives a non-definitive list of supported processors by Atmel.
 			</Text>
+		</div>
+
+		<div class="flex pt-4">
+			<Heading>Assembler Directives</Heading>
+		</div>
+
+		<div class="flex flex-col pl-8 pt-2">
+			<div class="flex flex-row">
+				<div class="flex w-48">
+					<Text>Syntax</Text>
+				</div>
+
+				<div class="flex w-64"></div>
+			
+				<div class="flex flex-grow">
+					<Text>Description</Text>
+				</div>
+			</div>
+
+			<LeftDivider />
+
+			<Dir
+				name = ".DEVICE"
+				syntax = "string"
+				description = "Tells the assembler what processor it is assembling for"
+			/>
+
+			<Dir
+				name = ".EQU"
+				syntax = "label = expr"
+				description = "Sets the label to the value of a constant expression"
+			/>
+
 		</div>
 
 		<div class="flex pt-4">
