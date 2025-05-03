@@ -49,7 +49,6 @@ export const pair = async () => {
 
 export const connect = async () => {
     let connected = await dfu.connect()
-    await dfu.read(AVRDFU.command.read_product_name)
     deviceStatus.setKey("connected", connected)
 }
 
